@@ -1,5 +1,27 @@
 {
+  "name": "wofjs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "local": "webpack ./src/js/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArchangelDesign/wofjs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArchangelDesign/wofjs/issues"
+  },
+  "homepage": "https://github.com/ArchangelDesign/wofjs#readme",
+  "description": "",
   "dependencies": {
     "three": "^0.143.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }
