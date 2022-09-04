@@ -1,7 +1,13 @@
 import * as THREE from 'three'
 import {TrackballControls} from 'three/examples/jsm/controls/TrackballControls.js';
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
+import {WofState} from "./entry.ts";
+import {WofInfoBox} from "./ui/InfoBox.ts";
 
+console.log('staring WOF.js ...');
+const infoBox = new WofInfoBox("TEST");
+let lastFps = 0;
+let currentFps = 0;
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
     75,
@@ -91,10 +97,12 @@ loader.load(
     // called when loading has errors
     function ( error ) {
 
-        console.log( 'An error happened' );
+        console.log( 'An error happened ' + error );
 
     }
 );
+
+setInterval(() => {lastFps = currentFps; currentFps = 0;}, 1000);
 
 const rendering = function() {
     requestAnimationFrame(rendering);
@@ -104,5 +112,8 @@ const rendering = function() {
     renderer.render(scene, camera);
     // Update trackball controls
     controls.update();
+    currentFps++;
+    infoBox.text(' Game Duration: ' + WofState.getInstance().getRuntimeInSeconds() + 's  FPS: ' + lastFps);
 }
+
 rendering();
