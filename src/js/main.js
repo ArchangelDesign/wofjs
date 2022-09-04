@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import {TrackballControls} from 'three/examples/jsm/controls/TrackballControls.js';
+import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -24,7 +25,7 @@ window.addEventListener('resize', () => {
 const boxGeometry = new THREE.BoxGeometry(2, 2, 2);
 const boxMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF});
 const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-boxMesh.rotation.set(40, 0, 40);
+// boxMesh.rotation.set(40, 0, 40);
 scene.add(boxMesh);
 
 // Lights
@@ -54,17 +55,52 @@ for (let i=0; i<6; i++) {
 }
 
 
+const axesHelper = new THREE.AxesHelper(5);
+scene.add(axesHelper);
+
+
+
 //Trackball Controls for Camera
 const controls = new TrackballControls(camera, renderer.domElement);
 controls.rotateSpeed = 4;
 controls.dynamicDampingFactor = 0.15;
 
+const loader = new GLTFLoader();
+
+loader.load(
+    // resource URL
+    'models/pong.gltf',
+    // called when the resource is loaded
+    function ( gltf ) {
+
+        scene.add( gltf.scene );
+
+        gltf.animations; // Array<THREE.AnimationClip>
+        gltf.scene; // THREE.Group
+        gltf.scenes; // Array<THREE.Group>
+        gltf.cameras; // Array<THREE.Camera>
+        gltf.asset; // Object
+
+    },
+    // called while loading is progressing
+    function ( xhr ) {
+
+        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+    },
+    // called when loading has errors
+    function ( error ) {
+
+        console.log( 'An error happened' );
+
+    }
+);
 
 const rendering = function() {
     requestAnimationFrame(rendering);
     // Constantly rotate box
-    scene.rotation.z -= 0.005;
-    scene.rotation.x -= 0.01;
+    // scene.rotation.z -= 0.005;
+    // scene.rotation.x -= 0.01;
     renderer.render(scene, camera);
     // Update trackball controls
     controls.update();
